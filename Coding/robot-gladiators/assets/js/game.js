@@ -6,6 +6,7 @@ var enemyNames = ["Roborto", "Amy Andriod", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
+// fight logic
 var fight = function(enemyName) {
     while (playerHealth > 0 && enemyHealth > 0) {
       // ask player if they'd like to fight or run
@@ -14,11 +15,11 @@ var fight = function(enemyName) {
       // if player picks "skip" confirm and then stop the loop
       if (promptFight === "skip" || promptFight === "SKIP") {
         // confirm player wants to skip
-        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+        var confirmSkip = window.confirm("Are you sure you'd like to skip?");
   
         // if yes (true), leave fight
         if (confirmSkip) {
-          window.alert(playerName + ' has decided to skip this fight. Goodbye!');
+          window.alert(playerName + ' has decided to skip this fight. Toodles!');
           // subtract money from playerMoney for skipping
           playerMoney = playerMoney - 10;
           console.log("playerMoney", playerMoney)
@@ -42,7 +43,7 @@ var fight = function(enemyName) {
         // leave while() loop since enemy is dead
         break;
       } else {
-        window.alert(enemyName + ' still has ' + enemyHealth + ' health left.');
+        window.alert(playerName + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.');
       }
   
       // remove players's health by subtracting the amount set in the enemyAttack variable
@@ -57,26 +58,50 @@ var fight = function(enemyName) {
         // leave while() loop if player is dead
         break;
       } else {
-        window.alert(playerName + ' still has ' + playerHealth + ' health left.');
+        window.alert(enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.');
       }
     }
   
   };
 
-for (var i = 0; i < enemyNames.length; i++) {
-    //intro message 
-    if (playerHealth > 0) {
-        window.alert('Welcome to Robot Gladiators! Round ' + ( i + 1 ));
+// start a new game
+var startGame = function() {
+    playerHealth = 100;
+    playerAttack = 10;
+    playerMoney = 10;
+    for (var i = 0; i < enemyNames.length; i++) {
+        //intro message 
+        if (playerHealth > 0) {
+            window.alert('Welcome to Robot Gladiators! Round ' + ( i + 1 ));
+
+        // pick new enemy to fight based off array
+        var pickedEnemyName = enemyNames[i];
+
+        //reset enemy stats
+        enemyHealth = 50;
+
+        //emergency debugger script
+        //debugger
+
+        //start fight
+        fight(pickedEnemyName);
+    } else {
+        window.alert("You have lost your robot in battle! Game Over.");
+        endGame();
     }
+    }
+    // play again
+    endGame();
+};
 
-    // pick new enemy to fight based off array
-    var pickedEnemyName = enemyNames[i];
+var endGame = function() {
+    debugger;
+    var confirmPlay = window.confirm("Do you want to play again?");
+    if (confirmPlay) {
+        startGame();
+    } else {
+        window.alert("Thanks for playing, goodbye!");
+    }
+}
 
-    //reset enemy health before starting fight
-    enemyHealth = 50;
-
-    //emergency debugger script
-    //debugger
-
-    fight(pickedEnemyName);
-  };
+startGame();
